@@ -1,0 +1,10 @@
+[Unit]
+Description=Daily Trailcam Planner preset backup
+
+[Timer]
+OnCalendar=*-*-* 00:30:00 UTC
+Persistent=true
+Unit=trailcam-backup.service
+
+[Install]
+WantedBy=timers.target

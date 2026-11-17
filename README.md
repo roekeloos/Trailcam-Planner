@@ -60,7 +60,11 @@ with `RELEASE=<old-commit> docker compose up -d --no-build`.
 
 Run `./deploy/backup.sh` on the VPS. It uses SQLite's online backup API and writes
 an owner-only snapshot to `/home/deploy/backups/trailcam-planner/` (override with
-`BACKUP_DIR`). A daily cron job runs at 00:30 UTC / 02:30 South Africa time.
+`BACKUP_DIR`). A user systemd timer runs daily at 00:30 UTC / 02:30 South Africa time.
+Install `deploy/trailcam-backup.service` and `deploy/trailcam-backup.timer`
+under `~/.config/systemd/user/`, then enable `trailcam-backup.timer` using
+`systemctl --user enable --now`. User lingering is enabled for `deploy` so
+backups run after logout and reboot.
 Backups remain on the VPS; off-site copies and retention are not configured.
 Restore with the app stopped, copying a snapshot into the volume as
 `presets.sqlite3`, removing old `-wal`/`-shm` files, and retaining UID 10001

@@ -1,0 +1,6 @@
+[Unit]
+Description=Back up Trailcam Planner presets
+
+[Service]
+Type=oneshot
+ExecStart=/home/deploy/apps/trailcam-planner/deploy/backup.sh

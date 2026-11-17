@@ -1,0 +1,12 @@
+trailcam-planner.darlingdev.dev {
+  encode zstd gzip
+  request_body {
+    max_size 16KB
+  }
+  header {
+    X-Content-Type-Options nosniff
+    Referrer-Policy same-origin
+    Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
+  }
+  reverse_proxy trailcam-planner:8080
+}

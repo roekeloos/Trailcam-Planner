@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Estimate SD card usage for motion-triggered and timelapse trail camera deployments.">
+<meta name="theme-color" content="#213a31">
+<title>Trail Camera Settings Optimiser</title>
+<link rel="stylesheet" href="./style.css">
+<script type="module" src="./app.mjs"></script>
+</head>
+<body>
+<header class="hero">
+  <div class="wrap">
+    <h1>Trail Camera<br>Settings Optimiser</h1>
+    <p>Plan SD card space for your next GardePro deployment.</p>
+  </div>
+</header>
+<main class="wrap">
+  <div class="toolbar"><a href="#forecast">View forecast ↓</a><button type="button" id="reset" class="quiet">Reset to defaults</button></div>
+  <div class="layout">
+    <div class="controls">
+      <section class="panel" aria-labelledby="card-heading">
+        <h2 id="card-heading">SD card</h2>
+        <div id="presets" class="presets" role="group" aria-label="Card capacity presets"></div>
+        <div id="cardFields" class="fields"></div>
+        <p class="note">Decimal storage units · 1 GB = 1,000 MB</p>
+      </section>
+      <section class="panel" aria-labelledby="setup-heading">
+        <h2 id="setup-heading">Recording setup</h2>
+        <div id="setupFields" class="fields"></div>
+        <div id="motionFields" class="fields"></div>
+        <p class="note" id="hybridNote" hidden>Hybrid adds both capture streams. The camera may record fewer captures when events overlap or it is busy.</p>
+      </section>
+      <section class="panel" id="photoPanel">
+        <h2>Photos</h2><div id="photoFields" class="fields"></div>
+      </section>
+      <section class="panel" id="videoPanel">
+        <h2>Video</h2><div id="videoFields" class="fields"></div>
+      </section>
+      <section class="panel" id="lapsePanel">
+        <h2>Timelapse</h2><div id="lapseFields" class="fields"></div>
+        <p class="note" id="lapseNote"></p>
+      </section>
+      <details class="panel">
+        <summary>File size assumptions</summary>
+        <p class="note">Illustrative estimates. GardePro specifications vary by model. Compression, bitrate and scene content affect actual file sizes.</p>
+        <h3>Photo size · MB per photo</h3><div id="photoSizes" class="fields assumptions"></div>
+        <h3>Video size · MB per minute</h3><div id="videoSizes" class="fields assumptions"></div>
+        <form id="calibration">
+          <h3>Calibrate a preset</h3>
+          <p class="note">Enter the size from a real file’s properties and, for video, its duration.</p>
+          <div class="fields">
+            <label>Preset<select id="samplePreset"></select></label>
+            <label>Sample size (MB)<input id="sampleSize" type="number" step="any" min="0" required></label>
+            <label id="durationLabel" hidden>Sample duration (seconds)<input id="sampleDuration" type="number" step="any" min="0"></label>
+          </div>
+          <button type="submit">Apply calibration</button>
+          <p class="note" id="calibrationStatus" role="status"></p>
+        </form>
+      </details>
+      <p class="model-note">Check your camera’s manual for supported settings and SD card capacities.</p>
+    </div>
+    <aside class="results" aria-label="Storage results">
+      <section class="panel" aria-labelledby="saved-heading">
+        <h2 id="saved-heading">Saved presets</h2>
+        <p class="note">Presets are private to this browser and stored on the server. Clearing browser cookies loses access. Other devices have separate collections.</p>
+        <form id="presetForm">
+          <label>Preset name<input id="presetName" type="text" maxlength="80" required autocomplete="off"></label>
+          <button id="savePreset" type="submit" disabled>Save current settings</button>
+        </form>
+        <p id="presetStatus" role="status" class="note"></p>
+        <div id="savedPresets"></div>
+        <div id="presetComparison" class="table-scroll"></div>
+      </section>
+      <section class="panel forecast" id="forecast">
+        <h2>Storage forecast</h2>
+        <div id="resultContent" aria-live="polite"></div>
+      </section>
+      <section class="panel" id="deploymentPanel" hidden>
+        <h2>Deployment check</h2><div id="deploymentResult" aria-live="polite"></div>
+      </section>
+      <section class="panel">
+        <h2>Compare a baseline</h2>
+        <div id="comparison"></div>
+        <div class="actions"><button type="button" id="saveBaseline">Save as baseline</button><button type="button" class="quiet" id="clearBaseline" hidden>Clear baseline</button></div>
+      </section>
+    </aside>
+  </div>
+</main>
+</body>
+</html>
